@@ -1,0 +1,30 @@
+<div class="card flex justify-content-center">
+    <p-card class="col-6">
+        <h2 class="text-center">
+            <i class="pi pi-user text-3xl"></i>
+            <div class="mt-3">Pessoa</div>
+        </h2>
+        <form (submit)="onSubmit()" [formGroup]="formPerson">
+            <div class="flex flex-column gap-2">
+                <label>Nome:</label>
+                <input type="text" pInputText class="p-inputtext-sm" placeholder="Digite seu nome" formControlName="name"/>
+            </div>
+
+            <div class="flex flex-column gap-2 mt-3">
+                <label>E-mail:</label>
+                <input type="text" pInputText class="p-inputtext-sm" placeholder="Digite seu e-mail" formControlName="email">
+            </div>
+
+            <div class="justify-content-start mt-3">
+                <p-checkbox [binary]="true" formControlName="isRepresentant"></p-checkbox>
+                <label class="ml-2">Representante</label>
+            </div>
+
+            <div class="card flex justify-content-end">
+                <p-button label="Empresa" severity="secondary" size="small" [outlined]="true" (onClick)="changeToCompany()"></p-button>
+                <p-button label="Cadastrar" class="ml-3" size="small" (onClick)="onSubmit()" [outlined]="true"></p-button>
+            </div>
+        </form>
+    </p-card>
+    <p-toast></p-toast>
+</div>

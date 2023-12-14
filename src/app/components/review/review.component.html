@@ -1,0 +1,17 @@
+<h1 class="card flex justify-content-center">
+    <p-card class="col-9">
+        <form (ngSubmit)="onSubmit()" [formGroup]="formReview">
+            <p-rating iconCancelClass="pi pi-eraser" [iconCancelStyle]="{color: '#505052'}" formControlName="rating"></p-rating>
+    
+            <div class="flex flex-column gap-2 mt-2">
+                <label for="comment">Comentário:</label>
+                <textarea id="comment" type="text" rows="5" pInputTextarea formControlName="comment"></textarea>
+            </div>
+
+            <div class="card flex justify-content-end mt-2">
+                <p-button label="Comentar" size="small" (onClick)="onSubmit()" [outlined]="true"></p-button>
+            </div>
+        </form>
+    </p-card>
+    <p-toast></p-toast>
+</h1>
