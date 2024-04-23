@@ -1,0 +1,30 @@
+<div class="flex flex-column">
+    <div [style]="{ width: '50rem' }">
+        <div class="relative">
+            <h1>
+                {{company.name}}
+            </h1>
+            <p-button class="absolute top-0 right-0" (onClick)="setCompanieDeselected()" icon="pi pi-times" [rounded]="true" [text]="true" severity="danger"></p-button>
+        </div>
+        <div class="grid nested-grid">
+            <p-image class="col-3" src="https://img.olhardigital.com.br/wp-content/uploads/2022/09/nebulosa-tarantula-imagem-james-webb.jpg" width="150rem"></p-image>
+            <div>
+                <h3>{{company.representant.name}}</h3>
+                <h3>{{company.address.city}}</h3>
+                <h4 [style]="{color: '#131231'}">Rua: {{company.address.street}} {{company.address.number}}</h4>
+            </div>
+        </div>
+        <div>
+            <p-rating [cancel]="false" [(ngModel)]="company.reviewAverage" [readonly]="true"></p-rating>
+        </div>
+    </div>
+    <p-divider></p-divider>
+    @for (review of Reviews; track $index) {
+        <div class="flex flex-column">
+            <h3>{{review.personName}}</h3>
+            <p-rating [cancel]="false" [readonly]="true" [(ngModel)]="review.rating"></p-rating>
+            <textarea class="mt-3" [(ngModel)]="review.comment" rows="5" [disabled]="true"></textarea>
+        </div>
+        <p-divider></p-divider>
+    }
+</div>

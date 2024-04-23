@@ -1,0 +1,15 @@
+<div class="flex justify-content-center flex-wrap my-2">
+    <p-card [style]="{ width: '50rem' }" header="{{company.name}}">
+        <div class="grid nested-grid">
+            <p-image class="col-3" src="https://img.olhardigital.com.br/wp-content/uploads/2022/09/nebulosa-tarantula-imagem-james-webb.jpg" width="150rem"></p-image>
+            <div>
+                <h3>{{company.representant.name}}</h3>
+                <h3>{{company.address.district}}</h3>
+                <h4 [style]="{color: '#131231'}">{{'Rua ' + company.address.street + ' ' + company.address.number}}</h4>
+            </div>
+        </div>
+        <div>
+            <p-rating [cancel]="false" [readonly]="true" [(ngModel)]="company.reviewAverage"></p-rating>
+        </div>
+    </p-card>
+</div>

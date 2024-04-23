@@ -27,12 +27,12 @@ export class CompanyService {
 
   public get(id: number): Observable<Company>
   {
-    return this.http.get<Company>(`${this.baseUrl}/?id=${id}`);
+    return this.http.get<Company>(`${this.baseUrl}/${id}`);
   }
 
-  public getAll(): Observable<Company>
+  public getAll(): Observable<Company[]>
   {
-    return this.http.get<Company>(`${this.baseUrl}`);
+    return this.http.get<Company[]>(`${this.baseUrl}`);
   }
 
   public delete(id: number): Observable<any>

@@ -16,7 +16,7 @@ import { ToastModule } from 'primeng/toast';
   imports: [ButtonModule, CardModule, InputTextModule, ToastModule, ReactiveFormsModule],
   templateUrl: './company.component.html',
   styleUrl: './company.component.scss',
-  providers: [CompanyService, MessageService]
+  providers: [CompanyService, MessageService],
 })
 export class CompanyComponent implements OnInit {
   formCompany!: FormGroup;

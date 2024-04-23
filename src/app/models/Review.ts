@@ -3,7 +3,9 @@ export interface Review {
 
     rating: number;
 
-    comment: string ;
+    comment: string;
+
+    personName: string;
 
     personId: number;
 

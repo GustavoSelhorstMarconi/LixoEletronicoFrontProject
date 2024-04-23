@@ -11,8 +11,8 @@
                 <input type="text" pInputText class="form-control" class="p-inputtext-sm" placeholder="Digite o nome da empresa" formControlName="name">
             </div>
 
-            <form [formGroup]="formAddress">
-                <div class="formgrid grid mt-3">
+            <div [formGroup]="formAddress">
+                <div class="grid mt-3">
                     <div class="field col">
                         <label for="country">País:</label>
                         <input id="country" type="text" pInputText class="p-inputtext-sm w-full" formControlName="country">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
 
-                <div class="formgrid grid">
+                <div class="grid">
                     <div class="field col">
                         <label for="city">Cidade:</label>
                         <input id="city" type="text" pInputText class="p-inputtext-sm w-full" formControlName="city">
@@ -42,13 +42,14 @@
                         <input id="number" type="number" pInputText class="p-inputtext-sm w-full" formControlName="number">
                     </div>
                 </div>
-            </form>
+            </div>
 
             <div class="card flex justify-content-end">
                 <p-button label="Pessoa" severity="secondary" size="small" [outlined]="true" (onClick)="changeToPerson()"></p-button>
                 <p-button label="Review" class="ml-3" severity="info" size="small" [outlined]="true" (onClick)="changeToReview()"></p-button>
                 <p-button label="Cadastrar" class="ml-3" size="small" (onClick)="onSubmit()" [outlined]="true"></p-button>
             </div>
+            
         </form>
     </p-card>
     <p-toast></p-toast>

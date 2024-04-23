@@ -1,4 +1,5 @@
 import { Address } from "./Address";
+import { Person } from "./Person";
 
 export interface Company {
     id: number;
@@ -7,7 +8,11 @@ export interface Company {
 
     representantId: number;
 
+    representant: Person;
+
     addressId: number;
 
-    Address: Address;
+    address: Address;
+
+    reviewAverage: number;
 }

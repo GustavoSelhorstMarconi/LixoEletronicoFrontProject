@@ -1,0 +1,22 @@
+.marginDropDown {
+    margin-top: 5rem;
+}
+
+.dropDownEnd {
+    animation: dropDownEnd 1s ease-in;
+}
+
+@keyframes dropDownEnd {
+    0% {
+        opacity: 0;
+        transform: translateY(0%);
+        transition: transform .12s cubic-bezier(0, 0, 0.2, 1), opacity .12s cubic-bezier(0, 0, 0.2, 1);
+    }
+    99% {
+        opacity: 1;
+        transform: translateY(-100%);
+    }
+    100% {
+        display: 'none';
+    }
+}

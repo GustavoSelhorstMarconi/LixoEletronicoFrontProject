@@ -7,7 +7,6 @@ import { SearchCompanyComponent } from './components/company/search-company/sear
 export const routes: Routes = [
     { path: 'person/register', component: PersonComponent },
     { path: 'company/register', component: CompanyComponent },
-    { path: 'company/register', component: CompanyComponent },
     { path: 'review', component: ReviewComponent },
     { path: 'main', component: SearchCompanyComponent},
     { path: '', redirectTo: 'main', pathMatch: 'full' },

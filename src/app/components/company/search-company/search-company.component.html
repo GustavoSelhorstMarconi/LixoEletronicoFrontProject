@@ -1,14 +1,41 @@
-<div>
-    <p-card [style]="{ width: '50rem' }" header="Empresa 1">
-        <div class="grid nested-grid">
-            <p-image class="col-3" src="https://img.olhardigital.com.br/wp-content/uploads/2022/09/nebulosa-tarantula-imagem-james-webb.jpg" width="150rem"></p-image>
-            <div>
-                <h3>Dono da empresa</h3>
-                <h4>Endereço da empresa</h4>
+<div [ngClass]="{'flex ': !isCompanieSelected, 'grid': isCompanieSelected }" class="relative w-full">
+    <div class="col column-gap-4 w-full">
+        <form [formGroup]="formFilter">
+            <div class="flex justify-content-center w-full">
+                <div class="flex flex-column gap-3 relative">
+                    <p-button (onClick)="fetchDropDownMenu()" icon="pi pi-bars" [rounded]="true" [outlined]="true"></p-button>
+                    <div class="fadeinup animation-duration-500" [ngClass]="{'flex flex-row gap-2 absolute mt-7': isDropDownOpen, 'hidden': !isDropDownOpen}">
+                        <label for="minDistance">Distância mínima</label>
+                        <p-inputNumber [size]="3" [placeholder]="'0 km'" inputId="minDistance" formControlName="minDistance"></p-inputNumber>
+                        <label for="maxDistance">Distância máxima</label>
+                        <p-inputNumber [size]="3" [placeholder]="'100 km'" inputId="maxDistance" formControlName="maxDistance"></p-inputNumber>
+                        <p-button label="Aplicar" [outlined]="true" severity="success"></p-button>
+                    </div>
+                </div>
+                <span class="p-input-icon-right ml-1">
+                    <i class="pi pi-search"></i>
+                    <input type="text" formControlName="searchText" style="width: 47rem" pInputText/>
+                </span>
+            </div>
+        </form>
+        <div [ngClass]="{marginDropDown: isDropDownOpen}">
+            @for (company of companies; track company.id) {
+                <app-company-card [company]="company" (click)="fetchInfoCompany(company.id)"></app-company-card>
+            }
+            @empty {
+                <div class="flex justify-content-center flex-wrap">
+                    <h1 class="flex align-items-center">Nenhuma empresa foi encontrada</h1>
+                </div>
+            }
+        </div>
+    </div>
+    @if (isCompanieSelected) {
+        <div class="border-left-1 border-200 pl-3">
+            <div class="sticky top-0">
+                <p-progressSpinner [style.display]="displayLoading" styleClass="w-4rem h-4rem" strokeWidth="5" class="absolute top-50 left-50"></p-progressSpinner>
+                <app-company-info [company]="companySelected" (companieSelectedEvent)="deselectCompanie()"></app-company-info>
             </div>
         </div>
-        <div>
-            <p-rating [cancel]="false" [readonly]="true"></p-rating>
-        </div>
-    </p-card>
+    }
 </div>
+<p-toast></p-toast>

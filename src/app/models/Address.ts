@@ -1,15 +1,15 @@
 export interface Address {
     id: number;
 
-    Number: number;
+    number: number;
 
-    Street: string;
+    street: string;
 
-    District: string;
+    district: string;
 
-    City: string;
+    city: string;
 
-    State: string;
+    state: string;
 
-    Country: string;
+    country: string;
 }
