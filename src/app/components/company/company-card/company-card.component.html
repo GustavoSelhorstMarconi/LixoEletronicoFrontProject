@@ -1,11 +1,15 @@
-<div class="flex justify-content-center flex-wrap my-2">
+<div class="flex justify-content-center my-2">
     <p-card [style]="{ width: '50rem' }" header="{{company.name}}">
-        <div class="grid nested-grid">
-            <p-image class="col-3" src="https://img.olhardigital.com.br/wp-content/uploads/2022/09/nebulosa-tarantula-imagem-james-webb.jpg" width="150rem"></p-image>
+        <div class="flex">
+            <div class="col-5" [class.none]="company.logoLoaded">
+                <i class="pi pi-building text-8xl"></i>
+            </div>
+            <p-image class="col-5 border-round-2xl" [class.none]="!company.logoLoaded" src="{{company.logoLoaded}}" width="250rem"></p-image>
             <div>
                 <h3>{{company.representant.name}}</h3>
                 <h3>{{company.address.district}}</h3>
-                <h4 [style]="{color: '#131231'}">{{'Rua ' + company.address.street + ' ' + company.address.number}}</h4>
+                <h3 [style]="{color: '#131231'}">{{'Rua ' + company.address.street + ' ' + company.address.number}}</h3>
+                <h3 [style]="{color: '#131231'}">Distância: {{company.distance | number: '1.2-2' : 'pt'}} km</h3>
             </div>
         </div>
         <div>

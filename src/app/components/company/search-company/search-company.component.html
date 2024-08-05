@@ -1,26 +1,63 @@
-<div [ngClass]="{'flex ': !isCompanieSelected, 'grid': isCompanieSelected }" class="relative w-full">
+<div [ngClass]="{'flex ': !isCompanieSelected, 'grid mt-1': isCompanieSelected }" class="relative w-full z-0">
     <div class="col column-gap-4 w-full">
         <form [formGroup]="formFilter">
             <div class="flex justify-content-center w-full">
                 <div class="flex flex-column gap-3 relative">
-                    <p-button (onClick)="fetchDropDownMenu()" icon="pi pi-bars" [rounded]="true" [outlined]="true"></p-button>
+                    <p-button (onClick)="fetchDropDownMenu()" icon="pi pi-filter" [rounded]="true" [outlined]="true"></p-button>
                     <div class="fadeinup animation-duration-500" [ngClass]="{'flex flex-row gap-2 absolute mt-7': isDropDownOpen, 'hidden': !isDropDownOpen}">
                         <label for="minDistance">Distância mínima</label>
-                        <p-inputNumber [size]="3" [placeholder]="'0 km'" inputId="minDistance" formControlName="minDistance"></p-inputNumber>
+                        <p-inputNumber mode="decimal" locale="pt-BR" [minFractionDigits]="2" [size]="3" [placeholder]="'0 km'" inputId="minDistance" formControlName="MinDistance"></p-inputNumber>
                         <label for="maxDistance">Distância máxima</label>
-                        <p-inputNumber [size]="3" [placeholder]="'100 km'" inputId="maxDistance" formControlName="maxDistance"></p-inputNumber>
-                        <p-button label="Aplicar" [outlined]="true" severity="success"></p-button>
+                        <p-inputNumber mode="decimal" locale="pt-BR" [minFractionDigits]="2" [size]="3" [placeholder]="'100 km'" inputId="maxDistance" formControlName="MaxDistance"></p-inputNumber>
+                        <p-button label="Definir endereço" class="w-15rem" [outlined]="true" severity="info" (click)="showBaseAddressModal()"></p-button>
+
+                        <p-dialog [style]="{ width: '25rem' }" header="Endereço" [modal]="true" [(visible)]="handleBaseAddressModal">
+                        <form [formGroup]="formStreetSearch">
+                            <span class="p-text-secondary block mb-5">Informe seu endereço de partida.</span>
+
+                            <div class="flex align-items-center gap-3 mb-3">
+                                <label for="state" class="font-semibold w-6rem">Estado</label>
+                                <input pInputText id="state" class="flex-auto" formControlName="state"/>
+                            </div>
+
+                            <div class="flex align-items-center gap-3 mb-3">
+                                <label for="city" class="font-semibold w-6rem">Cidade</label>
+                                <input pInputText id="city" class="flex-auto" formControlName="city"/>
+                            </div>
+                            
+                            <div class="flex align-items-center gap-3 mb-3">
+                                <label for="district" class="font-semibold w-6rem">Bairro</label>
+                                <input pInputText id="district" class="flex-auto" formControlName="district"/>
+                            </div>
+                            
+                            <div class="flex align-items-center gap-3 mb-5">
+                                <label for="street" class="font-semibold w-6rem">Rua</label>
+                                <input pInputText id="street" class="flex-auto" formControlName="street"/>
+                            </div>
+                            
+                            <div class="flex align-items-center gap-3 mb-5">
+                                <label for="number" class="font-semibold w-6rem">Número</label>
+                                <p-inputNumber id="number" class="flex-auto" formControlName="number"/>
+                            </div>
+                            
+                            <div class="w-full">
+                                <p-button label="Salvar" [style]="{ width: '100%' }" (click)="getCoordinatesBaseAddress()" />
+                            </div>
+                        </form>
+                        </p-dialog>
+
+                        <p-button label="Aplicar" [outlined]="true" severity="success" (onClick)="getAllCompanies()"></p-button>
                     </div>
                 </div>
                 <span class="p-input-icon-right ml-1">
-                    <i class="pi pi-search"></i>
-                    <input type="text" formControlName="searchText" style="width: 47rem" pInputText/>
+                    <input type="text" formControlName="Name" style="width: 47rem" placeholder="Buscar..." pInputText/>
+                    <p-button icon="pi pi-search" [text]="true" severity="secondary" (onClick)="getAllCompanies()"></p-button>
                 </span>
             </div>
         </form>
         <div [ngClass]="{marginDropDown: isDropDownOpen}">
             @for (company of companies; track company.id) {
-                <app-company-card [company]="company" (click)="fetchInfoCompany(company.id)"></app-company-card>
+                <app-company-card [company]="company" class="z-0" (click)="fetchInfoCompany(company.id)"></app-company-card>
             }
             @empty {
                 <div class="flex justify-content-center flex-wrap">
@@ -33,7 +70,7 @@
         <div class="border-left-1 border-200 pl-3">
             <div class="sticky top-0">
                 <p-progressSpinner [style.display]="displayLoading" styleClass="w-4rem h-4rem" strokeWidth="5" class="absolute top-50 left-50"></p-progressSpinner>
-                <app-company-info [company]="companySelected" (companieSelectedEvent)="deselectCompanie()"></app-company-info>
+                <app-company-info [company]="companySelected" (companieSelectedEvent)="deselectCompanie()" (calculateReviewAverageEvent)="changeReviewAverage($event)"></app-company-info>
             </div>
         </div>
     }

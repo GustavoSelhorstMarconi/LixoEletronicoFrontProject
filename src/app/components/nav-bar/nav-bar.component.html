@@ -1,0 +1,33 @@
+<div class="card">
+    <p-menubar [model]="items" class="relative">
+        <ng-template pTemplate="item" let-item>
+            <ng-container >
+                <a [routerLink]="item.routerLink" class="p-menuitem-link" (click)="checkUserPermission(item.label)">
+                    <span [class]="item.icon"></span>
+                    <span class="ml-2">{{ item.label }}</span>
+                </a>
+            </ng-container>
+        </ng-template>
+        
+        <div class="dropdown-container">
+            <div class="dropdown z-5">
+                Conta
+                <div class="dropdown-wrapper">
+                    <button class="dropdown-item" (click)="handleUserButton()">
+                        <i class="pi pi-user"></i>
+                        Perfil
+                    </button>
+                    <button [ngClass]="{'dropdown-item': userIsLogged, 'logoutButton': !userIsLogged }" (click)="logout()">
+                        <i class="pi pi-sign-out"></i>
+                        Sair
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- <a [routerLink]="'/auth/login'" class="p-menuitem-link" (click)="handleLogin()">
+            <span [class]="'pi pi-user'"></span>
+            <span class="ml-2">{{nameLoginButton}}</span>
+        </a> -->
+    </p-menubar>
+    <p-toast></p-toast>
+</div>

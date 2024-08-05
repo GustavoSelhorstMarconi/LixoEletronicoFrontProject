@@ -12,4 +12,8 @@ export interface Address {
     state: string;
 
     country: string;
+
+    latitude: number;
+
+    longitude: number;
 }

@@ -1,0 +1,37 @@
+<div class="card flex mt-8 justify-content-center align-items-center">
+    <p-card class="col-3">
+        <h2 class="text-center">
+            <i class="pi pi-user text-3xl"></i>
+            <div class="mt-3">Entrar</div>
+        </h2>
+        <form (submit)="onSubmit()" [formGroup]="formLogin">
+            <div class="flex flex-column gap-2 mt-3">
+                <label>Usuário:</label>
+                <input type="text" pInputText class="p-inputtext-sm" placeholder="Digite o nome do seu usuário" formControlName="username">
+            </div>
+
+            <div class="flex flex-column gap-2 mt-3">
+                <label>Senha:</label>
+                <div class="relative">
+                    <input [type]="iconShowPassword ? 'password' : 'text'" pInputText [style]="{paddingRight: '2rem'}" class="p-inputtext-sm w-full" formControlName="password">
+
+                    @if (iconShowPassword) {
+                        <i class="absolute icon pi pi-eye" (click)="iconShowPassword = !iconShowPassword"></i>
+                    }
+                    @else {
+                        <i class="absolute icon pi pi-eye-slash" (click)="iconShowPassword = !iconShowPassword"></i>
+                    }
+
+                </div>
+            </div>
+            
+            <div class="card flex justify-content-end align-items-center text-sm mt-3">
+                <a (click)="changeToRegister()" class="cursor-pointer text-blue-500 hover:underline">
+                    <b>Não possui conta? Cadastrar</b>
+                </a>
+                <p-button label="Logar" class="ml-3" size="small" (onClick)="onSubmit()" [outlined]="true"></p-button>
+            </div>
+        </form>
+    </p-card>
+    <p-toast></p-toast>
+</div>

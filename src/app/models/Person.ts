@@ -1,6 +1,3 @@
-import { Company } from "./Company";
-import { Review } from "./Review";
-
 export interface Person {
     id: number;
 
@@ -9,8 +6,6 @@ export interface Person {
     email: string;
 
     isRepresentant: boolean;
-
-    // companies: Company[];
-
-    // reviews: Review[];
+    
+    password: string;
 }

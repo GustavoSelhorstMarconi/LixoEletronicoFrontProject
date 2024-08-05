@@ -9,11 +9,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
+import { FileUploadModule } from 'primeng/fileupload';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-company',
   standalone: true,
-  imports: [ButtonModule, CardModule, InputTextModule, ToastModule, ReactiveFormsModule],
+  imports: [ButtonModule, CardModule, FileUploadModule, InputTextModule, ToastModule, ReactiveFormsModule, InputNumberModule],
   templateUrl: './company.component.html',
   styleUrl: './company.component.scss',
   providers: [CompanyService, MessageService],
@@ -22,6 +24,7 @@ export class CompanyComponent implements OnInit {
   formCompany!: FormGroup;
   formAddress!: FormGroup;
   company!: Company;
+  imageBytes!: Blob;
 
   private companyService = inject(CompanyService);
   private messageService = inject(MessageService);
@@ -40,7 +43,8 @@ export class CompanyComponent implements OnInit {
     this.formCompany = new FormGroup(
       {
         name: new FormControl(''),
-        address: this.formAddress
+        address: this.formAddress,
+        image: new FormControl(null)
       }
     );
   }
@@ -48,22 +52,35 @@ export class CompanyComponent implements OnInit {
   onSubmit(): void
   {
     let valores = this.formCompany.value;
-    console.log(valores)
 
     valores.representantId = 1;
+    valores.logo = this.imageBytes;
 
-    this.companyService.post(valores)
+    this.companyService.getLatitudeLongitude(valores)
     .subscribe({
-      next: () => { this.messageService.add({ severity: 'success', summary: 'Sucesso.', detail: 'Empresa cadastrada com sucesso!' }); },
-      error: () => { this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Erro ao cadastrar empresa!' }) }
-    })
+      next: (addressReturn: any) => {
+        if (addressReturn)
+        {
+          valores.address.latitude = addressReturn[0].lat;
+          valores.address.longitude = addressReturn[0].lon;
+
+          this.companyService.post(valores)
+          .subscribe({
+            next: () => { this.messageService.add({ severity: 'success', summary: 'Sucesso.', detail: 'Empresa cadastrada com sucesso!' }); },
+            error: () => { this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Erro ao cadastrar empresa!' }) }
+          })
+        }
+      },
+      error: () => { this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Erro ao buscar endereço!' }) }
+    });
   }
 
-  public changeToPerson(): void {
-    this.router.navigate(['person/register']);
-  }
-
-  public changeToReview(): void {
-    this.router.navigate(['review']);
+  public uploadImage(event: any): void {
+    let file = event.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imageBytes = e.target.result.split('base64,')[1];
+    };
+    reader.readAsDataURL(file);
   }
 }

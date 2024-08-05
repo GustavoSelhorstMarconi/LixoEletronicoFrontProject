@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { Person } from '../models/Person';
+import { HeaderCreator } from '../helpers/header-creator';
 
 @Injectable({
   providedIn: 'root',
@@ -20,14 +21,14 @@ export class PersonService {
     return this.http.post(this.baseUrl, JSON.stringify(person), httpOptions);
   }
 
-  public put(id: number, person: Person): Observable<any>
+  public get(): Observable<any>
   {
-    return this.http.put(`${this.baseUrl}/?id=${id}`, JSON.stringify(person));
-  }
+    let url = `${this.baseUrl}/info`;
 
-  public get(id: number): Observable<Person>
-  {
-    return this.http.get<Person>(`${this.baseUrl}/?id=${id}`);
+    const httpOptions = HeaderCreator.CreateHeaderWithAuth();
+    
+    return this.http.post<Person>(url, JSON.stringify(''), httpOptions)
+      .pipe(shareReplay());
   }
 
   public delete(id: number): Observable<any>

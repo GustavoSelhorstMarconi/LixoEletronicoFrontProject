@@ -42,11 +42,18 @@
                         <input id="number" type="number" pInputText class="p-inputtext-sm w-full" formControlName="number">
                     </div>
                 </div>
+
+                <div class="flex justify-content-center">
+                    <p-fileUpload 
+                        mode="basic" 
+                        chooseLabel="Selecione uma imagem" 
+                        chooseIcon="pi pi-upload"
+                        accept="image/*"
+                        (onSelect)="uploadImage($event)"/>
+                </div>
             </div>
 
             <div class="card flex justify-content-end">
-                <p-button label="Pessoa" severity="secondary" size="small" [outlined]="true" (onClick)="changeToPerson()"></p-button>
-                <p-button label="Review" class="ml-3" severity="info" size="small" [outlined]="true" (onClick)="changeToReview()"></p-button>
                 <p-button label="Cadastrar" class="ml-3" size="small" (onClick)="onSubmit()" [outlined]="true"></p-button>
             </div>
             
