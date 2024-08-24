@@ -14,6 +14,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ValidatorHelper } from '../../../helpers/validator-helper';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { Person } from '../../../models/Person';
+import { LoginReturn } from '../../../models/LoginReturn';
 
 @Component({
   selector: 'app-register',
@@ -39,10 +40,15 @@ export class RegisterComponent implements OnInit {
     confirmPassword: new FormControl('', [Validators.required]),
   },
   this.formOptions);
+  formLogin: FormGroup = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl('')
+  });
   
   private personService = inject(PersonService);
   private authService = inject(AuthService);
   private messageService = inject(MessageService);
+  private storageService = inject(LocalStorageService);
   private localStorageService = inject(LocalStorageService);
   private router = inject(Router);
 
@@ -108,11 +114,8 @@ export class RegisterComponent implements OnInit {
     .subscribe({
       next: () => {
         this.messageService.add({ severity: 'success', summary: 'Sucesso.', detail: 'Pessoa cadastrada com sucesso!' });
-        
-        setTimeout(() => {
-          this.router.navigate(['/auth/login']);
-        }, 500);
-        
+
+        this.loginAfterCreateAccount();
       },
       error: (error) => { this.messageService.add({ severity: 'error', summary: 'Error', detail: `Erro ao cadastrar pessoa!\n ${error.error.message} `}); }
     })
@@ -127,9 +130,43 @@ export class RegisterComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['/auth/login']);
         }, 500);
-        
       },
       error: (error) => { this.messageService.add({ severity: 'error', summary: 'Error', detail: `Erro ao atualizar usuário!\n ${error.error.message} `}); }
     })
+  }
+
+  public setAuthLocalStorage(authInfo: LoginReturn): void {
+    let authInfoString = JSON.stringify(authInfo);
+
+    localStorage.setItem('auth', authInfoString);
+    this.storageService.setStorageValue(authInfoString);
+  }
+
+  private loginAfterCreateAccount(): void {
+    this.formLogin.setValue({
+      username: this.formPerson.get('name')?.value,
+      password: this.formPerson.get('password')?.value
+    })
+
+    this.authService.login(this.formLogin.value)
+    .subscribe({
+      next: (loginReturn: LoginReturn) => {;
+        this.setAuthLocalStorage(loginReturn);
+        this.messageService.add({ severity: 'success', summary: 'Sucesso.', detail: 'Login realizado com sucesso!' });
+
+        this.personService.get()
+          .subscribe({
+            next: (person: Person) => {
+              localStorage.setItem('user-info', JSON.stringify(person));
+            },
+            error: (error) => { this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message }); }
+          });
+        
+        setTimeout(() => {
+          this.router.navigate(['/main']);
+        }, 500);
+    },
+    error: () => { this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Não foi possível logar!' }); }
+    });
   }
 }

@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LoginReturn } from '../../../models/LoginReturn';
 import { LocalStorageService } from '../../../services/local-storage.service';
-import { nextTick } from 'process';
 import { Person } from '../../../models/Person';
 
 @Component({
@@ -40,10 +39,6 @@ export class LoginComponent implements OnInit{
 
   ngOnInit(): void
   {
-      // this.formLogin = new FormGroup({
-      //   username: new FormControl(''),
-      //   password: new FormControl('')
-      // });
   }
 
   public onSubmit(): void {

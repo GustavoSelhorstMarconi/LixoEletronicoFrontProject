@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterRenderPhase, Component, Injector, OnInit, afterNextRender, inject } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { CommonModule } from '@angular/common';
@@ -16,11 +16,12 @@ import { ToastModule } from 'primeng/toast';
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit{
   items: MenuItem[] | undefined;
   itemLogin!: MenuItem[];
   nameLoginButton: string = 'Entrar';
   userIsLogged!: boolean;
+  injector = inject(Injector);
 
   private readonly storageService = inject(LocalStorageService);
   private readonly messageService = inject(MessageService);
@@ -28,11 +29,16 @@ export class NavBarComponent implements OnInit {
   private readonly router = inject(Router);
 
   ngOnInit(): void {
-    this.userIsLogged = localStorage && localStorage.getItem('auth') != null;
-
-    this.storageService.storage$.subscribe(() => {
-      this.checkLocalStorageChange();
-    });
+    afterNextRender(() =>
+      {
+        this.userIsLogged = localStorage && localStorage.getItem('auth') != null;
+        
+        this.storageService.storage$.subscribe(() => {
+          this.checkLocalStorageChange();
+        });
+      },
+      {injector: this.injector, phase: AfterRenderPhase.Read}          
+    );
 
     this.items = [
       {
