@@ -1,9 +1,0 @@
-{
-  "routes": [
-    "/auth/login",
-    "/auth/register",
-    "/company/register",
-    "/main",
-    "/review"
-  ]
-}
