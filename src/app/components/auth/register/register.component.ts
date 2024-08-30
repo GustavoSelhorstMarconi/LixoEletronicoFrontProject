@@ -1,4 +1,4 @@
-import { Component, InjectionToken, OnInit, inject } from '@angular/core';
+import { AfterRenderPhase, Component, InjectionToken, Injector, OnInit, afterNextRender, inject } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PersonService } from '../../../services/person.service';
 
@@ -51,34 +51,40 @@ export class RegisterComponent implements OnInit {
   private storageService = inject(LocalStorageService);
   private localStorageService = inject(LocalStorageService);
   private router = inject(Router);
+  injector = inject(Injector);
 
   ngOnInit(): void
   {
-    let userInfo = localStorage.getItem('user-info');
+    afterNextRender(() =>
+      {
+        let userInfo = localStorage.getItem('user-info');
 
-    if (userInfo != null)
-    {
-      let userInfoValues = JSON.parse(userInfo);
+        if (userInfo != null)
+        {
+          let userInfoValues = JSON.parse(userInfo);
 
-      this.formPerson.patchValue({
-        name: userInfoValues.name,
-        email: userInfoValues.email,
-        isRepresentant: userInfoValues.isRepresentant,
-      });
+          this.formPerson.patchValue({
+            name: userInfoValues.name,
+            email: userInfoValues.email,
+            isRepresentant: userInfoValues.isRepresentant,
+          });
 
-      this.textSaveButton = 'Salvar';
-    }
+          this.textSaveButton = 'Salvar';
+        }
 
-    this.localStorageService.storage$.subscribe(() => {
-      this.checkChangeUserInfo();
-    })
+        this.localStorageService.storage$.subscribe(() => {
+          this.checkChangeUserInfo();
+        })
+      },
+      {injector: this.injector, phase: AfterRenderPhase.Read}          
+    );
   }
 
   onSubmit(): void
   {
     let valores = this.formPerson.value;
 
-    if (valores.isRepresentant == "")
+    if (valores.isRepresentant == null || valores.isRepresentant == "")
     {
       valores.isRepresentant = false;
     }
