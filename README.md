@@ -10,8 +10,6 @@
 
 ## Funcionalidades
 
-<p align="center">Esse é um jogo criado como TCC de conclusão de ensino médio técnico, e foi desenvolvido utilizando Unity como engine, e programado utilizando C#.</p>
-
 - **Busca por endereço:** O sistema permite pesquisar locais de descarte próximos a partir de um endereço fornecido. A busca é baseada em distâncias para facilitar a identificação de opções mais acessíveis.
 - **Cadastro de novos locais:** Qualquer usuário pode contribuir com a adição de novos pontos de coleta, incluindo informações sobre o local, como endereço.
 - **Avaliações de locais:** Os usuários podem avaliar e comentar sobre os pontos de coleta, fornecendo informações sobre a qualidade e acessibilidade dos locais.
